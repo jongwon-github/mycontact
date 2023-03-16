@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -17,13 +20,17 @@ public class Person {
 
     private int age;
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                '}';
-    }
+    private String hobby;
+
+    private String bloodType;
+
+    private String address;
+
+    private LocalDateTime birthDay;
+
+    private String job;
+
+    @ToString.Exclude
+    private String phoneNumber;
 
 }
