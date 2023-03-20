@@ -6,13 +6,12 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Data
 public class Person {
 
     @Id
@@ -27,6 +26,7 @@ public class Person {
 
     private String hobby;
 
+    @NonNull
     private String bloodType;
 
     private String address;
@@ -38,17 +38,30 @@ public class Person {
     @ToString.Exclude
     private String phoneNumber;
 
-    @Override
+    // 아래 주석 부분은 @EqualsAndHashCode 어노테이션으로 대체 가능
+    // 근데 @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음
+    /*@Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Person)) return false;
+        if (o == null) {
+            return false;
+        }
+
         Person person = (Person) o;
-        return age == person.age && Objects.equals(id, person.id) && name.equals(person.name) && Objects.equals(hobby, person.hobby) && Objects.equals(bloodType, person.bloodType) && Objects.equals(address, person.address) && Objects.equals(birthDay, person.birthDay) && Objects.equals(job, person.job) && Objects.equals(phoneNumber, person.phoneNumber);
+
+        if (!person.getName().equals(this.getName())) {
+            return false;
+        }
+
+        if (person.getAge() != this.getAge()) {
+            return false;
+        }
+
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, hobby, bloodType, address, birthDay, job, phoneNumber);
-    }
+        return (name + age).hashCode();
+    }*/
 
 }
