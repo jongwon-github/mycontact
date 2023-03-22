@@ -3,6 +3,7 @@ package com.mycontact.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -37,6 +38,9 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
+
+    @OneToOne
+    private Block block;
 
     // 아래 주석 부분은 @EqualsAndHashCode 어노테이션으로 대체 가능
     // 근데 @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음

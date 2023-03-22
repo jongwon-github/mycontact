@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +36,6 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    void allArgsConstructor() {
-        Person person = new Person(1L, "martin", 10, "reading", "A", "분당", LocalDate.of(2023, 3, 17), "programmer", "010-1111-2222");
-    }
-
-    @Test
     void hashCodeAndEquals() {
         /*
             객체의 값이 동일하더라도 person1, person2 를 equals 비교하면 다른값으로 판별되고 각 객체의 hashcode 값도 다른값으로 생성됨
@@ -50,7 +44,6 @@ public class PersonRepositoryTest {
             person1.hashCode(), person2.hashCode() -> 동일한 값이 return
             @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음
         */
-
         Person person1 = new Person("martin", 10, "A");
         Person person2 = new Person("martin", 10, "A");
         //Person person2 = new Person("martin", 10, "B");
