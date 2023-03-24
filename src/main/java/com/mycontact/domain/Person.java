@@ -1,9 +1,6 @@
 package com.mycontact.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -39,7 +36,9 @@ public class Person {
     @ToString.Exclude
     private String phoneNumber;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true/*cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}*/)
+    @ToString.Exclude
+
     private Block block;
 
     // 아래 주석 부분은 @EqualsAndHashCode 어노테이션으로 대체 가능
