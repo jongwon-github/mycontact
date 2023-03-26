@@ -29,7 +29,7 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthDay;
+    private LocalDate birthday;
 
     private String job;
 
@@ -38,7 +38,6 @@ public class Person {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true/*cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}*/)
     @ToString.Exclude
-
     private Block block;
 
     // 아래 주석 부분은 @EqualsAndHashCode 어노테이션으로 대체 가능
