@@ -1,6 +1,8 @@
 package com.mycontact.domain;
 
+import com.mycontact.domain.dto.Birthday;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -29,7 +31,9 @@ public class Person {
 
     private String address;
 
-    private LocalDate birthday;
+    @Embedded
+    @Valid
+    private Birthday birthday;
 
     private String job;
 
