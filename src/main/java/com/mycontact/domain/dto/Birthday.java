@@ -15,15 +15,15 @@ import java.time.LocalDate;
 @Data
 public class Birthday {
 
-    private int yearOfBirthday;
+    private Integer yearOfBirthday;
 
     @Min(1)
     @Max(12)
-    private int monthOfBirthday;
+    private Integer monthOfBirthday;
 
     @Min(1)
     @Max(31)
-    private int dayOfBirthday;
+    private Integer dayOfBirthday;
 
     // 이 작업을 통해서 2월30일과 같이 이라는 이상한 날짜 입력값 validation 체크 가능
     public Birthday(LocalDate birthday) {

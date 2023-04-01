@@ -5,8 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.*;
 
-import java.time.LocalDate;
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +13,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull
