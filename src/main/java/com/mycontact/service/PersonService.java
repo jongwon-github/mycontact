@@ -6,6 +6,7 @@ import com.mycontact.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,9 +38,13 @@ public class PersonService {
 
     public List<Person> getPeopleByName(String name) {
 //        List<Person> people = personRepository.findAll();
-//
 //        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
         return personRepository.findByName(name);
+    }
+
+    @Transactional
+    public void put(Person person) {
+        personRepository.save(person);
     }
 
 }

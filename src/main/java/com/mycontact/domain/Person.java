@@ -3,6 +3,8 @@ package com.mycontact.domain;
 import com.mycontact.domain.dto.Birthday;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 @Entity
@@ -16,15 +18,20 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+    @NonNull // @RequiredArgsConstructor에 사용되는 파라미터라는 의미
+    @NotEmpty
+    @Column(nullable = false)
     private String name;
 
     @NonNull
+    @Min(1)
     private int age;
 
     private String hobby;
 
     @NonNull
+    @NotEmpty
+    @Column(nullable = false)
     private String bloodType;
 
     private String address;
