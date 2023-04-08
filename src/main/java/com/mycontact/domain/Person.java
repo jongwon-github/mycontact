@@ -18,7 +18,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull // @RequiredArgsConstructor에 사용되는 파라미터라는 의미
+    @NonNull // @RequiredArgsConstructor에 사용되는 파라미터라는 의미, null값을 체크하는데 사용되지는 않음
     @NotEmpty
     @Column(nullable = false)
     private String name;
