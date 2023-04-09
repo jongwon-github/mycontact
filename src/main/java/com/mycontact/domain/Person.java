@@ -1,11 +1,13 @@
 package com.mycontact.domain;
 
+import com.mycontact.controller.dto.PersonDto;
 import com.mycontact.domain.dto.Birthday;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+import org.h2.util.StringUtils;
 
 @Entity
 @NoArgsConstructor
@@ -74,5 +76,31 @@ public class Person {
     public int hashCode() {
         return (name + age).hashCode();
     }*/
+
+    public void set(PersonDto personDto) {
+        if (personDto.getAge() != 0) {
+            this.setAge(personDto.getAge());
+        }
+
+        if (!StringUtils.isNullOrEmpty(personDto.getHobby())) {
+            this.setHobby(personDto.getHobby());
+        }
+
+        if (StringUtils.isNullOrEmpty(personDto.getBloodType())) {
+            this.setBloodType(personDto.getBloodType());
+        }
+
+        if (!StringUtils.isNullOrEmpty(personDto.getAddress())) {
+            this.setAddress(personDto.getAddress());
+        }
+
+        if (!StringUtils.isNullOrEmpty(personDto.getJob())) {
+            this.setJob(personDto.getJob());
+        }
+
+        if (!StringUtils.isNullOrEmpty(personDto.getPhoneNumber())) {
+            this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+    }
 
 }
