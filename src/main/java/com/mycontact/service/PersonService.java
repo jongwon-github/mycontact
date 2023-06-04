@@ -64,9 +64,16 @@ public class PersonService {
     @Transactional
     public void modify(Long id, String name) {
         Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
-
         person.setName(name);
+        personRepository.save(person);
+    }
 
+    @Transactional
+    public void delete(Long id) {
+        Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
+        //personRepository.delete(person);
+        //personRepository.deleteById(id);
+        person.setDeleted(true); // 실제로 데이터를 삭제하는게 아니라 flag 값을 이용해 삭제 여부를 판단
         personRepository.save(person);
     }
 

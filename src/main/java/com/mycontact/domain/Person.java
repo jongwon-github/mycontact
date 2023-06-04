@@ -8,12 +8,15 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.h2.util.StringUtils;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.Where;
 
-@Entity
+@Entity // @Entity 는 @Valid 어노테이션이 없어도 @Min 등과 같은 validation 체크가 가능한거 같음
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Data
+@Where(clause = "deleted = false")
 public class Person {
 
     @Id
@@ -46,6 +49,9 @@ public class Person {
 
     @ToString.Exclude
     private String phoneNumber;
+
+    @ColumnDefault("0")
+    private boolean deleted;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true/*cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}*/)
     @ToString.Exclude
