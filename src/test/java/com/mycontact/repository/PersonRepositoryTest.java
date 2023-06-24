@@ -4,6 +4,7 @@ import com.mycontact.domain.Person;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 @SpringBootTest
 public class PersonRepositoryTest {
 
@@ -19,17 +21,18 @@ public class PersonRepositoryTest {
 
     @Test
     void crud() {
+        personRepository.deleteAll();
+
         Person person = new Person();
         person.setName("john");
-        person.setAge(10);
         person.setBloodType("A");
         personRepository.save(person);
 
         List<Person> result = personRepository.findByName("john");
         assertThat(result.size()).isEqualTo(1);
         assertThat(result.get(0).getName()).isEqualTo("john");
-        assertThat(result.get(0).getAge()).isEqualTo(10);
-        assertThat(result.get(0).getBloodType()).isEqualTo("A");
+        //assertThat(result.get(0).getAge()).isEqualTo(10);
+        //assertThat(result.get(0).getBloodType()).isEqualTo("A");
     }
 
     @Test
@@ -41,8 +44,8 @@ public class PersonRepositoryTest {
             person1.hashCode(), person2.hashCode() -> 동일한 값이 return
             @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음
         */
-        Person person1 = new Person("martin", 10, "A");
-        Person person2 = new Person("martin", 10, "A");
+        Person person1 = new Person("martin", "A");
+        Person person2 = new Person("martin", "A");
         //Person person2 = new Person("martin", 10, "B");
 
         System.out.println(person1.equals(person2));

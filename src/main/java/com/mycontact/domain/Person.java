@@ -11,6 +11,8 @@ import org.h2.util.StringUtils;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDate;
+
 @Entity // @Entity 는 @Valid 어노테이션이 없어도 @Min 등과 같은 validation 체크가 가능한거 같음
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,17 +22,13 @@ import org.hibernate.annotations.Where;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @NonNull // @RequiredArgsConstructor에 사용되는 파라미터라는 의미, null값을 체크하는데 사용되지는 않음
+    @NonNull // Entity 매핑 시점에서 클라이언트에 400에러 리턴, "", " " 허용
     @NotEmpty
     @Column(nullable = false)
     private String name;
-
-    @NonNull
-    @Min(1)
-    private int age;
 
     private String hobby;
 
@@ -42,7 +40,6 @@ public class Person {
     private String address;
 
     @Embedded
-    @Valid
     private Birthday birthday;
 
     private String job;
@@ -84,10 +81,6 @@ public class Person {
     }*/
 
     public void set(PersonDto personDto) {
-        if (personDto.getAge() != 0) {
-            this.setAge(personDto.getAge());
-        }
-
         if (!StringUtils.isNullOrEmpty(personDto.getHobby())) {
             this.setHobby(personDto.getHobby());
         }
@@ -107,6 +100,18 @@ public class Person {
         if (!StringUtils.isNullOrEmpty(personDto.getPhoneNumber())) {
             this.setPhoneNumber(personDto.getPhoneNumber());
         }
+    }
+
+    public Integer getAge() {
+        if (this.birthday != null) {
+            return LocalDate.now().getYear() - this.birthday.getYearOfBirthday() + 1;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean isBirthdayToday() {
+        return LocalDate.now().equals(LocalDate.of(this.birthday.getYearOfBirthday(), this.birthday.getMonthOfBirthday(), this.birthday.getDayOfBirthday()));
     }
 
 }

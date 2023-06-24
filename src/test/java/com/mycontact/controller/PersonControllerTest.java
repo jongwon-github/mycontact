@@ -40,9 +40,10 @@ class PersonControllerTest {
 
     @Test
     void postPerson() throws Exception {
+        personRepository.deleteAll();
         mockMvc.perform(MockMvcRequestBuilders.post("/api/person")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\": \"martin2\", \"age\": 20, \"bloodType\": \"A\"}"))
+                        .content("{\"name\": \"martin2\", \"bloodType\": \"A\"}"))
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
@@ -51,7 +52,7 @@ class PersonControllerTest {
     void modifyPerson() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.put("/api/person/1")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\"name\": \"martin2\", \"age\": 20, \"bloodType\": \"A\"}"))
+                    .content("{\"name\": \"martin2\", \"bloodType\": \"A\"}"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
