@@ -2,8 +2,6 @@ package com.mycontact.service;
 
 import com.mycontact.controller.dto.PersonDto;
 import com.mycontact.domain.Person;
-import com.mycontact.domain.dto.Birthday;
-import com.mycontact.repository.BlockRepository;
 import com.mycontact.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,24 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Slf4j
+@Service
 public class PersonService {
 
     @Autowired
     private PersonRepository personRepository;
-
-    @Autowired
-    private BlockRepository blockRepository;
-
-    public List<Person> getPeopleExcludeBlocks() {
-//        List<Person> people = personRepository.findAll();
-//        List<Block> blocks = blockRepository.findAll();
-//        List<String> blockNames = blocks.stream().map(Block::getName).collect(Collectors.toList());
-//        return people.stream().filter(person -> !blockNames.contains(person.getName())).collect(Collectors.toList());
-//        return people.stream().filter(person -> person.getBlock() == null).collect(Collectors.toList());
-        return personRepository.findByBlockIsNull();
-    }
 
     public Person getPerson(Long id) {
         Person person = personRepository.findById(id).orElse(null);
@@ -38,8 +24,6 @@ public class PersonService {
     }
 
     public List<Person> getPeopleByName(String name) {
-//        List<Person> people = personRepository.findAll();
-//        return people.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
         return personRepository.findByName(name);
     }
 
@@ -71,8 +55,6 @@ public class PersonService {
     @Transactional
     public void delete(Long id) {
         Person person = personRepository.findById(id).orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
-        //personRepository.delete(person);
-        //personRepository.deleteById(id);
         person.setDeleted(true); // 실제로 데이터를 삭제하는게 아니라 flag 값을 이용해 삭제 여부를 판단
         personRepository.save(person);
     }

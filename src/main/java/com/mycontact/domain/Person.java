@@ -22,7 +22,7 @@ import java.time.LocalDate;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NonNull // Entity 매핑 시점에서 클라이언트에 400에러 리턴, "", " " 허용
@@ -32,11 +32,6 @@ public class Person {
 
     private String hobby;
 
-    @NonNull
-    @NotEmpty
-    @Column(nullable = false)
-    private String bloodType;
-
     private String address;
 
     @Embedded
@@ -44,15 +39,10 @@ public class Person {
 
     private String job;
 
-    @ToString.Exclude
     private String phoneNumber;
 
     @ColumnDefault("0")
     private boolean deleted;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true/*cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}*/)
-    @ToString.Exclude
-    private Block block;
 
     // 아래 주석 부분은 @EqualsAndHashCode 어노테이션으로 대체 가능
     // 근데 @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음
@@ -85,10 +75,6 @@ public class Person {
             this.setHobby(personDto.getHobby());
         }
 
-        if (StringUtils.isNullOrEmpty(personDto.getBloodType())) {
-            this.setBloodType(personDto.getBloodType());
-        }
-
         if (!StringUtils.isNullOrEmpty(personDto.getAddress())) {
             this.setAddress(personDto.getAddress());
         }
@@ -99,6 +85,10 @@ public class Person {
 
         if (!StringUtils.isNullOrEmpty(personDto.getPhoneNumber())) {
             this.setPhoneNumber(personDto.getPhoneNumber());
+        }
+
+        if (personDto.getBirthday() != null) {
+            this.setBirthday(Birthday.of(personDto.getBirthday()));
         }
     }
 
