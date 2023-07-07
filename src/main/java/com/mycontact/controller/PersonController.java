@@ -35,14 +35,14 @@ public class PersonController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping
+    @PutMapping(value = "/{id}")
     public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
         personService.modify(id, personDto);
         log.info("person -> {}", personRepository.findAll());
     }
 
     // person 정보 중 일부만 변경하는 경우, patch 사용
-    @PatchMapping
+    @PatchMapping(value = "/{id}")
     public void modifyPerson(@PathVariable Long id, String name) {
         personService.modify(id, name);
         log.info("person -> {}", personRepository.findAll());
