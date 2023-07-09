@@ -36,7 +36,7 @@ public class PersonService {
     public void modify(Long id, PersonDto personDto) {
         Person personAtDb = personRepository.findById(id).orElseThrow(() -> new RuntimeException("아이디가 존재하지 않습니다."));
 
-        if (!personDto.getName().equals(personDto.getName())) {
+        if (!personAtDb.getName().equals(personDto.getName())) {
             throw new RuntimeException("이름이 아릅니다.");
         }
 

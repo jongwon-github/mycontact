@@ -31,27 +31,23 @@ public class PersonController {
     //@ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity postPerson(@RequestBody Person person) {
         personService.put(person);
-        log.info("person -> {}", personRepository.findAll());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}")
     public void modifyPerson(@PathVariable Long id, @RequestBody PersonDto personDto) {
         personService.modify(id, personDto);
-        log.info("person -> {}", personRepository.findAll());
     }
 
     // person 정보 중 일부만 변경하는 경우, patch 사용
     @PatchMapping(value = "/{id}")
     public void modifyPerson(@PathVariable Long id, String name) {
         personService.modify(id, name);
-        log.info("person -> {}", personRepository.findAll());
     }
 
     @DeleteMapping("/{id}")
     public void deletePerson(@PathVariable Long id) {
         personService.delete(id);
-        log.info("person -> {}", personRepository.findAll());
     }
 
 }
