@@ -29,8 +29,8 @@ public class PersonController {
 
     @PostMapping
     //@ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity postPerson(@RequestBody Person person) {
-        personService.put(person);
+    public ResponseEntity postPerson(@RequestBody PersonDto personDto) {
+        personService.put(personDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

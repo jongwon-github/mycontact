@@ -3,8 +3,6 @@ package com.mycontact.domain;
 import com.mycontact.controller.dto.PersonDto;
 import com.mycontact.domain.dto.Birthday;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.h2.util.StringUtils;
