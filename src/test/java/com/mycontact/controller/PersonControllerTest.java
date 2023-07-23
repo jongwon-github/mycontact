@@ -6,6 +6,7 @@ import com.mycontact.controller.dto.PersonDto;
 import com.mycontact.domain.Person;
 import com.mycontact.domain.dto.Birthday;
 import com.mycontact.repository.PersonRepository;
+import jakarta.servlet.ServletException;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.NestedServletException;
 
 import java.time.LocalDate;
 
@@ -121,7 +121,7 @@ class PersonControllerTest {
     void modifyPersonIfNameIsDifferent() throws Exception {
         PersonDto dto = new PersonDto().of("james", "programming", "판교", LocalDate.now(), "programmer", "010-1111-2222");
 
-        assertThrows(NestedServletException.class, () -> mockMvc.perform(MockMvcRequestBuilders.put("/api/person/1")
+        assertThrows(ServletException.class, () -> mockMvc.perform(MockMvcRequestBuilders.put("/api/person/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(toJsonString(dto)))

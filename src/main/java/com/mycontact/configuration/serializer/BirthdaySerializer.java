@@ -8,6 +8,9 @@ import com.mycontact.domain.dto.Birthday;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/**
+ * Serializer는 Java 객체를 JSON 데이터로 변환할 때 사용되고, Deserializer는 JSON 데이터를 Java 객체로 변환할 때 사용
+ */
 public class BirthdaySerializer extends JsonSerializer<Birthday> {
 
     @Override

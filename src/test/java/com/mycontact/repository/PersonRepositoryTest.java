@@ -1,15 +1,15 @@
 package com.mycontact.repository;
 
 import com.mycontact.domain.Person;
+import com.mycontact.domain.dto.Birthday;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
-import java.util.HashMap;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class PersonRepositoryTest {
@@ -18,48 +18,45 @@ public class PersonRepositoryTest {
     private PersonRepository personRepository;
 
     @Test
-    void crud() {
-        Person person = new Person();
-        person.setName("john");
-        personRepository.save(person);
+    void findByName() {
+        List<Person> people = personRepository.findByName("tony");
+        assertThat(people.size()).isEqualTo(1);
 
-        List<Person> result = personRepository.findByName("john");
-        assertThat(result.size()).isEqualTo(1);
-        assertThat(result.get(0).getName()).isEqualTo("john");
-        //assertThat(result.get(0).getAge()).isEqualTo(10);
-        //assertThat(result.get(0).getBloodType()).isEqualTo("A");
+        Person person = people.get(0);
+        assertAll(
+                () -> assertThat(person.getName()).isEqualTo("tony"),
+                () -> assertThat(person.getHobby()).isEqualTo("reading"),
+                () -> assertThat(person.getAddress()).isEqualTo("서울"),
+                () -> assertThat(person.getBirthday()).isEqualTo(Birthday.of(LocalDate.of(1991, 7, 10))),
+                () -> assertThat(person.getPhoneNumber()).isEqualTo("010-2222-5555"),
+                () -> assertThat(person.isDeleted()).isEqualTo(false)
+        );
     }
 
     @Test
-    void hashCodeAndEquals() {
-        /*
-            객체의 값이 동일하더라도 person1, person2 를 equals 비교하면 다른값으로 판별되고 각 객체의 hashcode 값도 다른값으로 생성됨
-            하지만 @EqualsAndHashCode 어노테이션을 추가해주면
-            person1.equals(person2) -> true
-            person1.hashCode(), person2.hashCode() -> 동일한 값이 return
-            @Data 어노테이션 내부에 @EqualsAndHashCode 어노테이션이 포함되어 있음
-        */
-        Person person1 = new Person("martin");
-        Person person2 = new Person("martin");
-        //Person person2 = new Person("martin", 10, "B");
+    void findByNameIfDeleted() {
+        List<Person> people = personRepository.findByName("andrew");
 
-        System.out.println(person1.equals(person2));
-        System.out.println(person1.hashCode());
-        System.out.println(person2.hashCode());
-
-        Map<Person, Integer> map = new HashMap<>();
-        map.put(person1, person1.getAge());
-
-        System.out.println(map);
-        System.out.println(map.get(person2));
+        assertThat(people.size()).isEqualTo(0);
     }
 
     @Test
-    void findByBirthdayBetween() {
-        List<Person> result = personRepository.findByMonthOfBirthday(8);
-        assertThat(result.size()).isEqualTo(2);
-        assertThat(result.get(0).getName()).isEqualTo("martin");
-        assertThat(result.get(1).getName()).isEqualTo("sophia");
+    void findByMonthOfBirthday() {
+        List<Person> people = personRepository.findByMonthOfBirthday(7);
+
+        assertThat(people.size()).isEqualTo(2);
+        assertAll(
+                () -> assertThat(people.get(0).getName()).isEqualTo("david"),
+                () -> assertThat(people.get(1).getName()).isEqualTo("tony")
+        );
+    }
+
+    @Test
+    void findPeopleDeleted() {
+        List<Person> people = personRepository.findPeopleDeleted();
+
+        assertThat(people.size()).isEqualTo(1);
+        assertThat(people.get(0).getName()).isEqualTo("andrew");
     }
 
 }
