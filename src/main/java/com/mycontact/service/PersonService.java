@@ -18,9 +18,7 @@ public class PersonService {
     private PersonRepository personRepository;
 
     public Person getPerson(Long id) {
-        Person person = personRepository.findById(id).orElse(null);
-        log.info("Person : {}", person);
-        return person;
+        return personRepository.findById(id).orElse(null);
     }
 
     public List<Person> getPeopleByName(String name) {
@@ -44,7 +42,6 @@ public class PersonService {
         }
 
         personAtDb.set(personDto);
-
         personRepository.save(personAtDb);
     }
 
