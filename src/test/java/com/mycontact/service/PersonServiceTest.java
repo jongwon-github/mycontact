@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -72,7 +71,7 @@ class PersonServiceTest {
         personService.put(mockPersonDto());
 
         // 특정 메소드를 호출 했는지에 대해서 검증
-        verify(personRepository, times(1)).save(any(Person.class));
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeInserted()));
     }
 
     @Test
@@ -135,11 +134,23 @@ class PersonServiceTest {
 
         personService.delete(1L);
 
-        //verify(personRepository, times(1)).save();
+        verify(personRepository, times(1)).save(argThat(new IsPersonWillBeDeleted()));
     }
 
     private PersonDto mockPersonDto() {
         return PersonDto.of("martin", "programming", "판교", LocalDate.now(), "programmer", "010-1111-2222");
+    }
+
+    private static class IsPersonWillBeInserted implements ArgumentMatcher<Person> {
+        @Override
+        public boolean matches(Person person) {
+            return person.getName().equals("martin")
+                    && person.getHobby().equals("programming")
+                    && person.getAddress().equals("판교")
+                    && person.getBirthday().equals(Birthday.of(LocalDate.now()))
+                    && person.getJob().equals("programmer")
+                    && person.getPhoneNumber().equals("010-1111-2222");
+        }
     }
 
     private static class IsPersonWillBeUpdated implements ArgumentMatcher<Person> {
@@ -158,6 +169,13 @@ class PersonServiceTest {
         @Override
         public boolean matches(Person person) {
             return person.getName().equals("daniel");
+        }
+    }
+
+    private static class IsPersonWillBeDeleted implements ArgumentMatcher<Person> {
+        @Override
+        public boolean matches(Person person) {
+            return person.isDeleted();
         }
     }
 
